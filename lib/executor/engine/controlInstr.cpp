@@ -165,5 +165,21 @@ Expect<void> Executor::runCallIndirectOp(Runtime::StoreManager &StoreMgr,
   return {};
 }
 
+Expect<void>
+Executor::runReturnCallOp([[maybe_unused]] Runtime::StoreManager &StoreMgr,
+                          [[maybe_unused]] const AST::Instruction &Instr,
+                          [[maybe_unused]] AST::InstrView::iterator &PC) {
+  // TODO
+  return Unexpect(ErrCode::RuntimeError);
+}
+
+Expect<void> Executor::runReturnCallIndirectOp(
+    [[maybe_unused]] Runtime::StoreManager &StoreMgr,
+    [[maybe_unused]] const AST::Instruction &Instr,
+    [[maybe_unused]] AST::InstrView::iterator &PC) {
+  // TODO
+  return Unexpect(ErrCode::RuntimeError);
+}
+
 } // namespace Executor
 } // namespace WasmEdge

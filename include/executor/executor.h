@@ -250,6 +250,13 @@ private:
   Expect<void> runCallIndirectOp(Runtime::StoreManager &StoreMgr,
                                  const AST::Instruction &Instr,
                                  AST::InstrView::iterator &PC);
+  /// ======= Tail-call instructions =======
+  Expect<void> runReturnCallOp(Runtime::StoreManager &StoreMgr,
+                               const AST::Instruction &Instr,
+                               AST::InstrView::iterator &PC);
+  Expect<void> runReturnCallIndirectOp(Runtime::StoreManager &StoreMgr,
+                                       const AST::Instruction &Instr,
+                                       AST::InstrView::iterator &PC);
   /// ======= Variable instructions =======
   Expect<void> runLocalGetOp(const uint32_t Idx);
   Expect<void> runLocalSetOp(const uint32_t Idx);

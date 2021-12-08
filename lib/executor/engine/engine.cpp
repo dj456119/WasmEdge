@@ -140,6 +140,10 @@ Expect<void> Executor::execute(Runtime::StoreManager &StoreMgr,
       return runCallOp(StoreMgr, Instr, PC);
     case OpCode::Call_indirect:
       return runCallIndirectOp(StoreMgr, Instr, PC);
+    case OpCode::Return_call:
+      return runReturnCallOp(StoreMgr, Instr, PC);
+    case OpCode::Return_call_indirect:
+      return runReturnCallIndirectOp(StoreMgr, Instr, PC);
 
     /// Reference Instructions
     case OpCode::Ref__null:
