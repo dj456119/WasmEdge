@@ -181,9 +181,11 @@ Expect<void> Loader::loadInstruction(AST::Instruction &Instr) {
   }
 
   case OpCode::Call:
+  case OpCode::Return_call:
     return readU32(Instr.getTargetIndex());
 
-  case OpCode::Call_indirect: {
+  case OpCode::Call_indirect:
+  case OpCode::Return_call_indirect: {
     /// Read the type index.
     if (auto Res = readU32(Instr.getTargetIndex()); !Res) {
       return Unexpect(Res);
@@ -862,6 +864,13 @@ Expect<void> Loader::checkInstrProposals(OpCode Code, uint64_t Offset) {
     /// These instructions are for SIMD proposal.
     if (!Conf.hasProposal(Proposal::SIMD)) {
       return logNeedProposal(ErrCode::IllegalOpCode, Proposal::SIMD, Offset,
+                             ASTNodeAttr::Instruction);
+    }
+  } else if (Code == OpCode::Return_call ||
+             Code == OpCode::Return_call_indirect) {
+    /// These instructions are for TailCall proposal.
+    if (!Conf.hasProposal(Proposal::TailCall)) {
+      return logNeedProposal(ErrCode::IllegalOpCode, Proposal::TailCall, Offset,
                              ASTNodeAttr::Instruction);
     }
   }
