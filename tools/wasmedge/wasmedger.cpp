@@ -52,6 +52,8 @@ int main(int Argc, const char *Argv[]) {
   PO::Option<PO::Toggle> PropRefTypes(
       PO::Description("Disable Reference types proposal"sv));
   PO::Option<PO::Toggle> PropSIMD(PO::Description("Disable SIMD proposal"sv));
+  PO::Option<PO::Toggle> PropTailCall(
+      PO::Description("Enable Tail-call proposal"sv));
   PO::Option<PO::Toggle> PropAll(PO::Description("Enable all features"sv));
 
   PO::Option<PO::Toggle> ConfEnableInstructionCounting(PO::Description(
@@ -93,6 +95,7 @@ int main(int Argc, const char *Argv[]) {
            .add_option("disable-bulk-memory"sv, PropBulkMemOps)
            .add_option("disable-reference-types"sv, PropRefTypes)
            .add_option("disable-simd"sv, PropSIMD)
+           .add_option("enable-tail-call"sv, PropTailCall)
            .add_option("enable-all"sv, PropAll)
            .add_option("memory-page-limit"sv, MemLim)
            .add_option("allow-command"sv, AllowCmd)
@@ -127,9 +130,12 @@ int main(int Argc, const char *Argv[]) {
   if (PropSIMD.value()) {
     Conf.removeProposal(WasmEdge::Proposal::SIMD);
   }
-  /// Left for the future proposals.
-  /// if (PropAll.value()) {
-  /// }
+  if (PropTailCall.value()) {
+    Conf.addProposal(WasmEdge::Proposal::TailCall);
+  }
+  if (PropAll.value()) {
+    Conf.addProposal(WasmEdge::Proposal::TailCall);
+  }
   if (MemLim.value().size() > 0) {
     Conf.getRuntimeConfigure().setMaxMemoryPage(
         static_cast<uint32_t>(MemLim.value().back()));
