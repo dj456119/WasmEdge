@@ -201,6 +201,7 @@ struct TestsuiteProposal {
 static const TestsuiteProposal TestsuiteProposals[] = {
     {"core"sv, {}},
     {"simd"sv, {}},
+    {"tail-call"sv, {Proposal::TailCall}},
 };
 
 } // namespace
